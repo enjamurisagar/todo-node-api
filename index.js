@@ -4,8 +4,8 @@ import cors from "cors";
 
 const app = express();
 
-import dotenv from 'dotenv'
-dotenv.config()
+import dotenv from "dotenv";
+dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 
@@ -19,8 +19,11 @@ app.use(router);
 mongoose
   .connect(process.env.MONGO_DB_URI)
   .then(() => {
-    app.listen(PORT, () => console.log("App Running on 5000"));
+    app.listen(PORT, () => console.log("App Running on " + PORT));
   })
-  .catch((err) => console.log(err.message));
+  .catch((err) => console.log("mongodb FAILED " + err.message));
 
 mongoose.connection.on("connected", () => console.log("Connected to MONGO DB"));
+mongoose.connection.on("disconnected", () =>
+  console.log("Disconnected from MONGO DB")
+);
